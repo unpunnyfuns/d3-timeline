@@ -1,0 +1,152 @@
+.timeline {
+  --timeline-font: system-ui, sans-serif;
+  --timeline-font-size: 12px;
+  --timeline-axis-color: light-dark(#666, #a3a3a3);
+  --timeline-grid-color: light-dark(rgba(0, 0, 0, 0.08), rgba(255, 255, 255, 0.08));
+  --timeline-lane-alt-bg: transparent;
+  --timeline-lane-border: light-dark(rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.1));
+  --timeline-bar-bg: light-dark(#4a7bd0, #5b8ae0);
+  --timeline-bar-fg: #fff;
+  --timeline-bar-radius: 3px;
+  --timeline-bar-hover-bg: light-dark(#3a6bc0, #7aa2ee);
+  --timeline-bar-border: none;
+  --timeline-bar-border-width: 1;
+  --timeline-bar-selected-outline: light-dark(#1b3f8a, #c7d7f7);
+  --timeline-bar-selected-width: 2;
+
+  display: block;
+  font-family: var(--timeline-font);
+  font-size: var(--timeline-font-size);
+  user-select: none;
+}
+
+.timeline-axis-svg,
+.timeline-body-svg {
+  display: block;
+  width: 100%;
+}
+
+.timeline-body {
+  position: relative;
+}
+
+.timeline-axis text {
+  fill: var(--timeline-axis-color);
+}
+
+.timeline-axis line {
+  stroke: var(--timeline-axis-color);
+}
+
+.timeline-grid-line {
+  stroke: var(--timeline-grid-color);
+}
+
+.timeline-lane {
+  fill: transparent;
+  stroke: none;
+}
+
+.timeline-lane-border {
+  stroke: var(--timeline-lane-border);
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+
+.timeline-lane.is-alt {
+  fill: var(--timeline-lane-alt-bg);
+}
+
+.timeline-lane-label {
+  fill: var(--timeline-axis-color);
+}
+
+.timeline-bar {
+  cursor: pointer;
+}
+
+.timeline-bar-rect {
+  fill: var(--timeline-bar-bg);
+  stroke: var(--timeline-bar-border);
+  stroke-width: var(--timeline-bar-border-width);
+  rx: var(--timeline-bar-radius);
+}
+
+.timeline-bar.is-hovered .timeline-bar-rect {
+  fill: var(--timeline-bar-hover-bg);
+}
+
+.timeline-bar.is-selected .timeline-bar-rect {
+  stroke: var(--timeline-bar-selected-outline);
+  stroke-width: var(--timeline-bar-selected-width);
+}
+
+.timeline-bar-label {
+  fill: var(--timeline-bar-fg);
+  pointer-events: none;
+}
+
+.timeline-minimap {
+  width: 100%;
+  --timeline-bar-bg: light-dark(#4a7bd0, #5b8ae0);
+  --timeline-lane-alt-bg: transparent;
+  --timeline-minimap-bar-opacity: 0.7;
+  --timeline-minimap-brush-bg: light-dark(rgba(74, 123, 208, 0.18), rgba(122, 162, 238, 0.25));
+  --timeline-minimap-brush-border: light-dark(#4a7bd0, #7aa2ee);
+
+  display: block;
+  user-select: none;
+}
+
+.timeline-minimap-lane {
+  fill: transparent;
+}
+
+.timeline-minimap-lane.is-alt {
+  fill: var(--timeline-lane-alt-bg);
+}
+
+.timeline-minimap-bar {
+  fill: var(--timeline-bar-bg);
+  opacity: var(--timeline-minimap-bar-opacity);
+}
+
+.timeline-minimap .brush .selection {
+  fill: var(--timeline-minimap-brush-bg);
+  stroke: var(--timeline-minimap-brush-border);
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+
+.timeline-minimap .brush .overlay {
+  cursor: default;
+}
+
+.timeline-lanemap {
+  --timeline-bar-bg: light-dark(#4a7bd0, #5b8ae0);
+  --timeline-lanemap-bar-opacity: 0.6;
+  --timeline-lanemap-window-bg: light-dark(rgba(0, 0, 0, 0.08), rgba(255, 255, 255, 0.1));
+  --timeline-lanemap-window-border: light-dark(rgba(0, 0, 0, 0.2), rgba(255, 255, 255, 0.25));
+
+  display: block;
+  cursor: grab;
+  user-select: none;
+}
+
+.timeline-lanemap:active {
+  cursor: grabbing;
+}
+
+.timeline-lanemap-bar {
+  fill: var(--timeline-bar-bg);
+  opacity: var(--timeline-lanemap-bar-opacity);
+  pointer-events: none;
+}
+
+.timeline-lanemap-window {
+  fill: var(--timeline-lanemap-window-bg);
+  stroke: var(--timeline-lanemap-window-border);
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+  pointer-events: none;
+}

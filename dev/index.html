@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Timeline playground</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+      }
+      body {
+        font-family: system-ui, sans-serif;
+        margin: 2rem;
+      }
+      h2 {
+        font-size: 1rem;
+        margin: 2rem 0 0.5rem;
+      }
+      svg {
+        width: 100%;
+      }
+      .controls {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 0.5rem 1.5rem;
+        margin-bottom: 1rem;
+        font-size: 0.85rem;
+      }
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+      }
+      .field input[type='range'] {
+        width: 100%;
+      }
+      .zebra .timeline,
+      .zebra .timeline-minimap {
+        --timeline-lane-alt-bg: rgba(127, 127, 127, 0.08);
+      }
+      .duration {
+        fill: var(--timeline-bar-fg);
+        font-size: 10px;
+        opacity: 0.8;
+        pointer-events: none;
+      }
+      .kind-release {
+        --timeline-bar-bg: #2f9e63;
+        --timeline-bar-hover-bg: #237a4c;
+      }
+    </style>
+  </head>
+  <body>
+    <nav><a href="/">playground</a> · <a href="/tall.html">tall chart</a></nav>
+    <label class="theme">
+      Theme
+      <select id="theme">
+        <option value="light dark">system</option>
+        <option value="light">light</option>
+        <option value="dark">dark</option>
+      </select>
+    </label>
+    <h2>Core (vanilla)</h2>
+    <div id="core"></div>
+    <svg id="core-minimap" style="margin-top: 8px"></svg>
+    <p id="core-status"></p>
+    <h2>React</h2>
+    <div id="react"></div>
+    <script type="module" src="/main.tsx"></script>
+  </body>
+</html>
