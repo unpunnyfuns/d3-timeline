@@ -90,3 +90,13 @@ test('destroy empties the svg and stops following', async () => {
   await new Promise((resolve) => requestAnimationFrame(resolve))
   expect(svg.childElementCount).toBe(0)
 })
+
+test('pins its width with an inline style so page CSS cannot stretch it', () => {
+  const style = document.createElement('style')
+  style.textContent = 'svg { width: 100% }'
+  document.head.appendChild(style)
+  const { svg } = setup(160)
+  expect(svg.style.width).toBe('40px')
+  expect(svg.getBoundingClientRect().width).toBe(40)
+  style.remove()
+})

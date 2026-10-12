@@ -56,7 +56,11 @@ export const createLaneMap = (svg: SVGSVGElement, options: LaneMapOptions): Lane
     const k = scaleY()
     const x = createBaseScale(timeline.getPanExtent(), width)
     const laneIndex = new Map(data.lanes.map((lane, i) => [lane.id, i]))
-    root.attr('width', width).attr('height', height)
+    root
+      .attr('width', width)
+      .attr('height', height)
+      .style('width', `${width}px`)
+      .style('flex', 'none')
     const markHeight = Math.max(1, rowHeight * k - 1)
 
     barsG
