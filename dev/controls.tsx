@@ -139,7 +139,13 @@ export const Controls = ({ value, onChange }: ControlsProps) => {
         <input
           type="checkbox"
           checked={value.laneMap}
-          onChange={(event) => set('laneMap', event.target.checked)}
+          onChange={(event) =>
+            onChange({
+              ...value,
+              laneMap: event.target.checked,
+              maxHeight: event.target.checked && value.maxHeight === 0 ? 400 : value.maxHeight,
+            })
+          }
         />
       </Field>
       <Field label="100 lanes">
