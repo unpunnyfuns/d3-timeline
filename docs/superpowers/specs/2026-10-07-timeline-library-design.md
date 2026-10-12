@@ -289,3 +289,13 @@ Target: up to a few hundred lanes without virtualization.
 - Minimap is unchanged and still takes its own SVG.
 - React `Timeline` renders a `div` instead of an `svg`; `className` and `style` go on it. `maxHeight` is a prop.
 - `classes` gains `axisSvg`, `body`, `bodySvg`.
+
+## Tooltip / popover (added 2026-10-12)
+
+Consumer renders content, library positions it.
+
+- Core: `getAnchor(id): { left, top, width, height } | null`, the bar's box relative to the timeline container, null when the item is not rendered or is outside the scrolled viewport. Consumers re-read on `domainchange` and `scroll`.
+- React: `renderTooltip?: (ctx: { item: TimelineItem; lane: TimelineLane; pinned: boolean }) => ReactNode`. When set, `Timeline` renders a wrapper `div` (gets `className`/`style`, `position: relative`) containing the chart root and a `div.timeline-tooltip` positioned at the active bar: centred horizontally, below the bar, flipped above when there is no room below, clamped to the wrapper width. `data-placement` is `bottom` or `top`.
+- Active item is the hovered one, else the selected one. `pinned` is true when showing the selected item. The tooltip element has `pointer-events: none` unless pinned.
+- Position re-syncs on hover, select, domainchange, scroll, and container resize.
+- No default content or styling beyond positioning.
