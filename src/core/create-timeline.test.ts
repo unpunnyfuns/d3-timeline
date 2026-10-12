@@ -323,3 +323,29 @@ test('exposes scroll state, setScroll, and a scroll event when maxHeight applies
   expect(timeline.getScroll().top).toBe(20)
   expect(onScroll).toHaveBeenCalledWith({ top: 20, height: 40, total: 64 })
 })
+
+test('getAnchor returns the bar box relative to the container', () => {
+  const { svg, timeline } = setup({ labelWidth: 100 })
+  const anchor = timeline.getAnchor('a')!
+  const rect = bar(svg, 'a').querySelector('rect.timeline-bar-rect')!.getBoundingClientRect()
+  const root = svg.getBoundingClientRect()
+  expect(anchor.left).toBeCloseTo(rect.left - root.left, 3)
+  expect(anchor.top).toBeCloseTo(rect.top - root.top, 3)
+  expect(anchor.width).toBeCloseTo(rect.width, 3)
+  expect(anchor.height).toBe(32 - 8)
+  expect(anchor.top).toBeCloseTo(28 + 4, 3)
+  expect(timeline.getAnchor('nope')).toBeNull()
+})
+
+test('getAnchor is null when the bar is scrolled out of the viewport', () => {
+  const lanes = Array.from({ length: 10 }, (_, i) => ({ id: `l${i}`, label: `L${i}` }))
+  const { svg, timeline } = setup({ maxHeight: 64 })
+  timeline.update({
+    lanes,
+    items: [{ id: 'last', lane: 'l9', start: d('2026-01-02'), end: d('2026-01-04') }],
+  })
+  expect(timeline.getAnchor('last')).toBeNull()
+  timeline.setScroll(1000)
+  expect(timeline.getAnchor('last')).not.toBeNull()
+  expect(svg).toBeDefined()
+})

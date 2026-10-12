@@ -10,7 +10,7 @@
         align-items: flex-start;
         gap: 8px;
       }
-      .row .timeline {
+      .row > div {
         flex: 1;
         min-width: 0;
       }
@@ -52,6 +52,21 @@
         font-size: 10px;
         opacity: 0.8;
         pointer-events: none;
+      }
+      .card {
+        background: Canvas;
+        color: CanvasText;
+        border: 1px solid light-dark(rgba(0, 0, 0, 0.15), rgba(255, 255, 255, 0.2));
+        border-radius: 6px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        padding: 8px 10px;
+        font-size: 12px;
+        margin-top: 6px;
+        white-space: nowrap;
+      }
+      .timeline-tooltip[data-placement='top'] .card {
+        margin-top: 0;
+        margin-bottom: 6px;
       }
       .kind-release {
         --timeline-bar-bg: #2f9e63;

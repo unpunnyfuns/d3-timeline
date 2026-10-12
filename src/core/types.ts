@@ -69,6 +69,13 @@ export interface TimelineOptions {
   onRender?: RenderHook
 }
 
+export interface Anchor {
+  left: number
+  top: number
+  width: number
+  height: number
+}
+
 export interface ScrollState {
   top: number
   height: number
@@ -98,6 +105,7 @@ export interface Timeline {
   getOptions(): ResolvedTimelineOptions
   getScroll(): ScrollState
   setScroll(top: number): void
+  getAnchor(id: string): Anchor | null
   setSelected(id: string | null): void
   on<K extends keyof TimelineEvents>(event: K, handler: TimelineEvents[K]): () => void
   destroy(): void

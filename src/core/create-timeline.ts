@@ -8,6 +8,7 @@ import { renderLaneLabels, renderLanes } from './layers/lanes'
 import { DEFAULT_TICK_SPACING, createBaseScale, defaultDomain } from './scale'
 import { cx } from './types'
 import type {
+  Anchor,
   ResolvedTimelineOptions,
   ScrollState,
   Timeline,
@@ -83,6 +84,7 @@ export const createTimeline = (container: HTMLElement, options: TimelineOptions 
     .append<SVGSVGElement>(() => document.createElementNS(SVG_NS, 'svg'))
     .attr('class', cx('timeline-axis-svg', classes.axisSvg))
     .attr('height', axisHeight)
+    .style('display', 'block')
   const body = root.append('div').attr('class', cx('timeline-body', classes.body))
   if (options.maxHeight !== undefined) {
     body.style('max-height', `${options.maxHeight}px`).style('overflow-y', 'auto')
@@ -105,6 +107,7 @@ export const createTimeline = (container: HTMLElement, options: TimelineOptions 
   const bodySvg = body
     .append<SVGSVGElement>(() => document.createElementNS(SVG_NS, 'svg'))
     .attr('class', cx('timeline-body-svg', classes.bodySvg))
+    .style('display', 'block')
 
   const clipRect = bodySvg.append('defs').append('clipPath').attr('id', clipId).append('rect')
   const axisG = axisSvg.append('g').attr('class', cx('timeline-axis', classes.axis))
@@ -210,6 +213,26 @@ export const createTimeline = (container: HTMLElement, options: TimelineOptions 
   const getPanExtent = (): [Date, Date] => options.panExtent ?? baseDomain
   const getOptions = (): ResolvedTimelineOptions => ({ rowHeight, labelWidth, zoomExtent })
 
+  const getAnchor = (id: string): Anchor | null => {
+    if (destroyed) return null
+    const item = state.items.find((candidate) => candidate.id === id)
+    if (!item) return null
+    const laneIndex = state.lanes.findIndex((lane) => lane.id === item.lane)
+    if (laneIndex < 0) return null
+    const { top: scrollTop, height: viewport } = getScroll()
+    const barTop = laneIndex * rowHeight + state.barInset
+    const barHeight = Math.max(0, rowHeight - state.barInset * 2)
+    if (barTop + barHeight < scrollTop || barTop > scrollTop + viewport) return null
+    const x0 = state.xScale(item.start)
+    const x1 = state.xScale(item.end)
+    return {
+      left: labelWidth + Math.min(x0, x1),
+      top: axisHeight + barTop - scrollTop,
+      width: Math.max(0, x1 - x0),
+      height: barHeight,
+    }
+  }
+
   const setSelected = (id: string | null) => {
     if (destroyed) return
     state.selectedId = id
@@ -240,6 +263,7 @@ export const createTimeline = (container: HTMLElement, options: TimelineOptions 
     getOptions,
     getScroll,
     setScroll,
+    getAnchor,
     setSelected,
     on,
     destroy,

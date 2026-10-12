@@ -16,6 +16,7 @@ export interface Settings {
   minimapPosition: 'top' | 'bottom' | 'none'
   minimapBrush: 'x' | 'xy'
   laneMap: boolean
+  tooltip: boolean
   zebra: boolean
   maxHeight: number
   manyLanes: boolean
@@ -38,6 +39,7 @@ export const defaultSettings: Settings = {
   minimapPosition: 'bottom',
   minimapBrush: 'x',
   laneMap: false,
+  tooltip: true,
   zebra: false,
   maxHeight: 0,
   manyLanes: false,
@@ -146,6 +148,13 @@ export const Controls = ({ value, onChange }: ControlsProps) => {
               maxHeight: event.target.checked && value.maxHeight === 0 ? 400 : value.maxHeight,
             })
           }
+        />
+      </Field>
+      <Field label="tooltip">
+        <input
+          type="checkbox"
+          checked={value.tooltip}
+          onChange={(event) => set('tooltip', event.target.checked)}
         />
       </Field>
       <Field label="100 lanes">

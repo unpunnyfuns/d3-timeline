@@ -5,6 +5,7 @@ export type { Minimap, MinimapClasses, MinimapOptions } from './minimap'
 export { createLaneMap } from './lane-map'
 export type { LaneMap, LaneMapClasses, LaneMapOptions } from './lane-map'
 export type {
+  Anchor,
   LabelAlign,
   LayerSelection,
   RenderHook,

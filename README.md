@@ -58,6 +58,8 @@ const App = () => {
 
 `Timeline` renders a `div` (axis SVG on top, scrolling body SVG below). Props are `lanes`, `items`, `selected`, the three callbacks, `onInstance`, `onRender`, `className`, `style`, plus every option from the table below. Geometry option changes recreate the instance; `lanes`, `items`, `selected`, `domain` update in place. Callbacks, `onRender`, and `tickFormat` are read through a ref, so new function identities are free.
 
+**Tooltip.** Pass `renderTooltip={({ item, lane, pinned }) => <YourCard … />}` and `Timeline` positions your element in a `div.timeline-tooltip` under the hovered bar, flipping above when there's no room (`data-placement` is `bottom` or `top`) and clamped to the chart width. Hover shows it; clicking a bar pins it to the selection with `pinned: true`, and a pinned tooltip accepts pointer events so it can hold buttons. The library adds no styling beyond position, so style the card yourself and give it a top margin for a gap. With `renderTooltip` set, `className` and `style` go on a relative-positioned wrapper around the chart.
+
 `TimelineMinimap` takes `timeline` (from `onInstance`), `laneHeight`, `offset`, `classes`, `className`, `style`. It renders an empty `<svg>` until `timeline` is non-null. It is a separate element, so put it above or below the chart by DOM order.
 
 `TimelineLaneMap` is the tall-chart companion: a narrow thumbnail of every lane and item with a window showing the visible rows, like the VS Code minimap. It takes `timeline`, `width` (40), `classes`, `className`, `style`. Its height matches the chart's viewport, so place it in a flex row beside the chart with a top margin equal to `axisHeight`. Dragging or clicking on it scrolls the body; scrolling the body moves the window. It only does something useful with `maxHeight` set.
@@ -83,6 +85,7 @@ timeline.getPanExtent(): [Date, Date]
 timeline.getOptions(): { rowHeight, labelWidth, zoomExtent }
 timeline.getScroll(): { top, height, total }  // body scroll position, viewport height, content height
 timeline.setScroll(top: number)
+timeline.getAnchor(id): { left, top, width, height } | null   // bar box relative to the container; null if not rendered or scrolled out of view. Re-read on domainchange and scroll.
 timeline.setSelected(id: string | null)       // does not emit select
 timeline.on('hover' | 'select', (id: string | null) => void): () => void
 timeline.on('domainchange', (domain: [Date, Date]) => void): () => void

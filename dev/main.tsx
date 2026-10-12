@@ -95,6 +95,25 @@ const App = () => {
             labelOffsetY={settings.labelOffsetY}
             tickSpacing={settings.tickSpacing}
             tickFormat={tickFormats[settings.tickFormat]}
+            renderTooltip={
+              settings.tooltip
+                ? ({ item, lane, pinned }) => (
+                    <div className="card">
+                      <strong>{item.label ?? item.id}</strong>
+                      <div>{lane.label}</div>
+                      <div>
+                        {item.start.toLocaleDateString()} to {item.end.toLocaleDateString()} (
+                        {Math.round((item.end.getTime() - item.start.getTime()) / DAY)}d)
+                      </div>
+                      {pinned && (
+                        <button type="button" onClick={() => setSelected(null)}>
+                          close
+                        </button>
+                      )}
+                    </div>
+                  )
+                : undefined
+            }
           />
           {settings.laneMap && (
             <TimelineLaneMap timeline={instance} style={{ marginTop: settings.axisHeight }} />

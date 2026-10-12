@@ -1,5 +1,5 @@
 export { Timeline } from './react/Timeline'
-export type { TimelineProps } from './react/Timeline'
+export type { TimelineProps, TooltipContext } from './react/Timeline'
 export { TimelineMinimap } from './react/TimelineMinimap'
 export type { TimelineMinimapProps } from './react/TimelineMinimap'
 export { TimelineLaneMap } from './react/TimelineLaneMap'
