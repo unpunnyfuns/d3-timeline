@@ -8,7 +8,7 @@ import {
   type Timeline as TimelineInstance,
   type TimelineItem,
 } from '../src/core'
-import { Timeline, TimelineMinimap } from '../src'
+import { Timeline, TimelineLaneMap, TimelineMinimap } from '../src'
 import '../timeline.css'
 import { data, manyLanesData } from './data'
 import { Controls, defaultSettings, type Settings } from './controls'
@@ -71,33 +71,40 @@ const App = () => {
           <TimelineMinimap
             timeline={instance}
             laneHeight={settings.laneHeight}
+            brush={settings.minimapBrush}
             style={{ marginBottom: 8 }}
           />
         )}
-        <Timeline
-          lanes={chartData.lanes}
-          items={chartData.items}
-          maxHeight={settings.maxHeight || undefined}
-          selected={selected}
-          onSelect={setSelected}
-          onHover={setHovered}
-          onInstance={setInstance}
-          onRender={onRender}
-          rowHeight={settings.rowHeight}
-          labelWidth={settings.labelWidth}
-          axisHeight={settings.axisHeight}
-          barInset={settings.barInset}
-          labelPadding={settings.labelPadding}
-          labelAlign={settings.labelAlign}
-          labelOffsetX={settings.labelOffsetX}
-          labelOffsetY={settings.labelOffsetY}
-          tickSpacing={settings.tickSpacing}
-          tickFormat={tickFormats[settings.tickFormat]}
-        />
+        <div className="row">
+          <Timeline
+            lanes={chartData.lanes}
+            items={chartData.items}
+            maxHeight={settings.maxHeight || undefined}
+            selected={selected}
+            onSelect={setSelected}
+            onHover={setHovered}
+            onInstance={setInstance}
+            onRender={onRender}
+            rowHeight={settings.rowHeight}
+            labelWidth={settings.labelWidth}
+            axisHeight={settings.axisHeight}
+            barInset={settings.barInset}
+            labelPadding={settings.labelPadding}
+            labelAlign={settings.labelAlign}
+            labelOffsetX={settings.labelOffsetX}
+            labelOffsetY={settings.labelOffsetY}
+            tickSpacing={settings.tickSpacing}
+            tickFormat={tickFormats[settings.tickFormat]}
+          />
+          {settings.laneMap && (
+            <TimelineLaneMap timeline={instance} style={{ marginTop: settings.axisHeight }} />
+          )}
+        </div>
         {settings.minimapPosition === 'bottom' && (
           <TimelineMinimap
             timeline={instance}
             laneHeight={settings.laneHeight}
+            brush={settings.minimapBrush}
             style={{ marginTop: 8 }}
           />
         )}

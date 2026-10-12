@@ -14,6 +14,8 @@ export interface Settings {
   laneHeight: number
   tickFormat: 'default' | 'day' | 'iso'
   minimapPosition: 'top' | 'bottom' | 'none'
+  minimapBrush: 'x' | 'xy'
+  laneMap: boolean
   zebra: boolean
   maxHeight: number
   manyLanes: boolean
@@ -34,6 +36,8 @@ export const defaultSettings: Settings = {
   laneHeight: 6,
   tickFormat: 'default',
   minimapPosition: 'bottom',
+  minimapBrush: 'x',
+  laneMap: false,
   zebra: false,
   maxHeight: 0,
   manyLanes: false,
@@ -121,6 +125,22 @@ export const Controls = ({ value, onChange }: ControlsProps) => {
           <option value="bottom">bottom</option>
           <option value="none">none</option>
         </select>
+      </Field>
+      <Field label="minimap brush">
+        <select
+          value={value.minimapBrush}
+          onChange={(event) => set('minimapBrush', event.target.value as Settings['minimapBrush'])}
+        >
+          <option value="x">x (time only)</option>
+          <option value="xy">xy (time + scroll)</option>
+        </select>
+      </Field>
+      <Field label="lane map (scroller)">
+        <input
+          type="checkbox"
+          checked={value.laneMap}
+          onChange={(event) => set('laneMap', event.target.checked)}
+        />
       </Field>
       <Field label="100 lanes">
         <input
